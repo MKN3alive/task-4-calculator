@@ -20,7 +20,8 @@ class Calculator:
         "/": operator.truediv,
         "^": operator.pow,
     }
-    
+
+    #спец значения
     _special_values = ["inf", "+inf", "-inf", "nan"]
     
     def __init__(self):
@@ -194,25 +195,25 @@ class Calculator:
         """Обрабатывает особые случаи для операции возведения в степень"""
         
         if math.isinf(a):
-            if a > 0:  # +inf
+            if a > 0:
                 if b > 0:
                     return float('inf')
                 elif b < 0:
                     return 0.0
                 else:  # b == 0
                     return 1.0
-            else:  # -inf
+            else: 
                 if b > 0:
-                    if b % 2 == 0:  # четная степень
+                    if b % 2 == 0:
                         return float('inf')
-                    else:  # нечетная степень
+                    else:
                         return float('-inf')
                 elif b < 0:
-                    if b % 2 == 0:  # четная степень
+                    if b % 2 == 0:
                         return 0.0
-                    else:  # нечетная степень
+                    else:
                         return -0.0
-                else:  # b == 0
+                else:
                     return 1.0
         elif math.isinf(b):
             if abs(a) > 1:
@@ -236,14 +237,12 @@ class Calculator:
             return self.previous_result
             
         try:
-            # Заменяем предыдущий результат
             expression = expression.replace('_', str(self.previous_result))
             
             tokens = self._tokenize(expression)
             rpn_tokens = self._infix_to_rpn(tokens)
             result = self._evaluate_rpn(rpn_tokens)
             
-            # Сохраняем результат для следующего использования
             self.previous_result = result
             self.variables['_'] = result
             
