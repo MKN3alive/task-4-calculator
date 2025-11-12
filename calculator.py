@@ -105,9 +105,9 @@ class Calculator:
         return tokens
     
     @staticmethod
+    @staticmethod
     def _infix_to_rpn(tokens: list[str]) -> list[str]:
         """Преобразует инфиксное выражение в обратную польскую запись"""
-        
         output = []
         stack = []
         
@@ -119,18 +119,24 @@ class Calculator:
             elif token == ')':
                 while stack and stack[-1] != '(':
                     output.append(stack.pop())
-                if stack and stack[-1] == '(':
-                    stack.pop()
+                if not stack:
+                    raise ValueError("Лишняя закрывающая скобка")
+                stack.pop()  
             else:
                 while (stack and stack[-1] != '(' and
-                       __class__._precedence.get(stack[-1], 0) >= __class__._precedence.get(token, 0)):
+                    __class__._precedence.get(stack[-1], 0) >= __class__._precedence.get(token, 0)):
                     output.append(stack.pop())
                 stack.append(token)
         
+        for token in stack:
+            if token == '(':
+                raise ValueError("Не хватает закрывающей скобки")
+        
         while stack:
             output.append(stack.pop())
-            
+        
         return output
+
             
     def _evaluate_rpn(self, rpn_tokens: list[str]) -> float:
         """Вычисляет значение выражения в RPN"""
@@ -200,7 +206,7 @@ class Calculator:
                     return float('inf')
                 elif b < 0:
                     return 0.0
-                else:  # b == 0
+                else:  
                     return 1.0
             else: 
                 if b > 0:
@@ -223,7 +229,7 @@ class Calculator:
                     return 0.0
             elif abs(a) == 1:
                 return 1.0
-            else:  # |a| < 1
+            else:  
                 if b > 0:
                     return 0.0
                 else:
