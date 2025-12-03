@@ -105,7 +105,6 @@ class Calculator:
         return tokens
     
     @staticmethod
-    @staticmethod
     def _infix_to_rpn(tokens: list[str]) -> list[str]:
         """Преобразует инфиксное выражение в обратную польскую запись"""
         output = []
@@ -166,12 +165,7 @@ class Calculator:
                 
                 try:
                     if token == '/' and b == 0:
-                        if a == 0:
-                            result = float('nan')
-                        elif math.isinf(a):
-                            result = float('nan') if math.isinf(b) else float('inf') if a > 0 else float('-inf')
-                        else:
-                            result = float('inf') if a > 0 else float('-inf')
+                        result = float('nan')
                     elif token == '^':
                         if a == 0 and b == 0:
                             result = float('nan')
